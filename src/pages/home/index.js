@@ -1,29 +1,11 @@
-import { useEffect } from 'react'
+import Footer from '../../components/footer'
+import Header from '../../components/header'
 
 const Home = () => {
 
-    useEffect(() => {
-        document.title = 'Argent Bank - Home Page'
-    })
-
     return (
         <>
-            <nav className="main-nav">
-                <a href="#" className="main-nav-logo">
-                    <img 
-                        className="main-nav-logo-image"
-                        src={require('../../assets/images/argentBankLogo.png')}
-                        alt="Argent Bank Logo"
-                    />
-                    <h1 className='sr-only'>Argent Bank</h1>
-                </a>
-                <div>
-                    <a className="main-nav-item" href="#">
-                        <i className="fa fa-user-circle"></i>
-                        Sign In
-                    </a>
-                </div>
-            </nav>
+           <Header isUserConnected={false} />
             <main>
                 <div className="hero">
                     <section className="hero-content">
@@ -73,9 +55,7 @@ const Home = () => {
                     </div>
                 </section>
             </main>
-            <footer className="footer">
-                <p className="footer-text">Copyright 2020 Argent Bank</p>
-            </footer>
+            <Footer />
         </>
     )
 }
