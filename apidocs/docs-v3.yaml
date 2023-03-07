@@ -1,0 +1,157 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation phase 2
+  description: Contains API endpoints for the phase 2 of the project
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/transactions:
+    post:
+      tags:
+        - Transaction Module
+      summary: Retrive las month user's transaction 
+      description: API for finding last 30 days user's transaction
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Transactions Payload
+          required: true
+          schema:
+             $ref: '#/definitions/TransactionsBody'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Retrieve transactions successully
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+              transactions:
+                type: array
+                items:
+                  $ref: '#/definitions/TransactionsResponse'
+        '400':
+          description: Invalid UserId
+        '401':
+          description: Invalid Bearer Token
+        '404':
+          description: The Api Isnt Working
+        '500':
+          description: Internal Server Error
+  /transaction/detail:
+    put:
+      tags:
+        - Transaction Module
+      summary: Update a transation detail
+      description: API for updating a transaction detail
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update user profile attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionUpdateBody'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+              transactionDetails:
+                $ref: '#/definitions/TransactionUpdateResponse'
+        '400':
+          description: Invalid TransactionId
+        '401':
+          description: Invalid Bearer Token
+        '404':
+          description: The Api Isnt Working
+        '500':
+          description: Internal Server Error
+definitions:
+  TransactionsBody:
+    type: object
+    required:
+      - userId
+    properties:
+      userId:
+        type: integer
+        example: 3
+  TransactionsResponse:
+    type: object
+    properties:
+      date:
+        type: string
+        example: 26/02/2023
+      description:
+        type: string
+        example: Golden Sun Bakery
+      amount:
+        type: integer
+        example: 5
+      balance:
+        type: integer
+        example: 2300.23
+      TransactionDetails:
+        type: object
+        properties: 
+          TransactionType:
+            type: string
+            example: Electronic
+          Category:
+            type: string
+            example: food
+          Notes:
+            type: string
+            example: bread
+  TransactionUpdateBody:
+    type: object
+    required:
+      - transactionId
+    properties:
+      transactionId:
+        type: integer
+        example: 3
+      category:
+        type: string
+        example: new food
+      notes:
+        type: string
+        example: new notes
+  TransactionUpdateResponse:
+    type: object
+    properties:
+      TransactionId:
+        type: integer
+        example: 3
+      Category:
+        type: string
+        example: new category
+      Notes:
+        type: string
+        example: new notes
