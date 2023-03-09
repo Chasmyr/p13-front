@@ -1,36 +1,51 @@
-const Header = ({isUserConnected}) => {
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import {setBearerToken, setConnected, setUserData} from '../../slices/login/loginSlice'
+
+const Header = ({isUserConnected = null, dispatch, firstName = null}) => {
+
+    function logout() {
+        dispatch(setBearerToken(null))
+        setUserData({firstName: null, lastName: null})
+        dispatch(setConnected(false))
+    }
 
     return (
         <nav className="main-nav">
-            <a href="/" className="main-nav-logo">
+            <Link to="/" className="main-nav-logo">
                 <img 
                     className="main-nav-logo-image"
                     src={require('../../assets/images/argentBankLogo.png')}
                     alt="Argent Bank Logo"
                 />
                 <h1 className='sr-only'>Argent Bank</h1>
-            </a>
+            </Link>
             <div>
                 {isUserConnected ? 
                     <>
-                        <a className="main-nav-item" href="/user">
+                        <Link className="main-nav-item" to="/user">
                             <i className="fa fa-user-circle"></i>
-                            Tony
-                        </a>
-                        <a className="main-nav-item" href="/">
+                            {firstName}
+                        </Link>
+                        <Link className="main-nav-item" to="/" onClick={logout}>
                             <i className="fa fa-sign-out"></i>
                             Sign Out
-                        </a>
+                        </Link>
                     </>
                 :
-                    <a className="main-nav-item" href="/signin">
+                    <Link className="main-nav-item" to="/signin">
                         <i className="fa fa-user-circle"></i>
                         Sign In
-                    </a>
+                    </Link>
                 }
             </div>
         </nav>
     )
 }
 
-export default Header
+export default connect(
+    state => ({
+        isUserConnected: state.loginReducer.isConnected,
+        firstName: state.loginReducer.firstName
+    })
+)(Header)

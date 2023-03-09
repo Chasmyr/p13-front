@@ -1,14 +1,27 @@
-import Footer from "../footer"
-import Header from "../header"
+import { useEffect } from "react"
+import { connect } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import Footer from "../../components/footer"
+import Header from "../../components/header"
 
-const User = () => {
+const User = ({isUserConnected = null, lastName = null, firstName = null}) => {
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(!isUserConnected) {
+            navigate('/')
+        } else {
+            
+        }
+    }, [])
 
     return (
         <>
-            <Header isUserConnected={true} />
+            <Header />
             <main className="main bg-dark">
                 <div className="header">
-                    <h1>Welcome back<br />Tony Jarvis!</h1>
+                    <h1>Welcome back<br />{firstName} {lastName}!</h1>
                     <button className="edit-button">Edit Name</button>
                 </div>
                 <h2 className="sr-only">Accounts</h2>
@@ -48,4 +61,10 @@ const User = () => {
     )
 }
 
-export default User
+export default connect(
+    state => ({
+        isUserConnected: state.loginReducer.isConnected,
+        firstName: state.loginReducer.firstName,
+        lastName: state.loginReducer.lastName
+    })
+)(User)

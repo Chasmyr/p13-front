@@ -1,3 +1,4 @@
+import { connect } from 'react-redux'
 import Footer from '../../components/footer'
 import Header from '../../components/header'
 
@@ -5,7 +6,7 @@ const Home = () => {
 
     return (
         <>
-           <Header isUserConnected={false} />
+           <Header />
             <main>
                 <div className="hero">
                     <section className="hero-content">
@@ -60,4 +61,8 @@ const Home = () => {
     )
 }
 
-export default Home
+export default connect(
+    state => ({
+        isUserConnected: state.loginReducer.isConnected
+    })
+)(Home)
