@@ -25,7 +25,7 @@ const Header = ({isUserConnected = null, dispatch, firstName = null}) => {
                     <>
                         <Link className="main-nav-item" to="/user">
                             <i className="fa fa-user-circle"></i>
-                            {firstName}
+                            {firstName !== null ? firstName : 'Loading...'}
                         </Link>
                         <Link className="main-nav-item" to="/" onClick={logout}>
                             <i className="fa fa-sign-out"></i>

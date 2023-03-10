@@ -4,7 +4,6 @@ const initialState = {
     token: null,
     firstName: null,
     lastName: null,
-    isLoading: false,
     isConnected: false,
     userName: null
 }
@@ -26,12 +25,6 @@ const loginSlice = createSlice({
                 lastName: action.payload.lastName
             }
         },
-        setLoading: (state,action) => {
-            return {
-                ...state,
-                isLoading: action.payload
-            }
-        },
         setConnected: (state,action) => {
             return {
                 ...state,
@@ -49,4 +42,4 @@ const loginSlice = createSlice({
 
 export const {actions, reducer} = loginSlice
 
-export const {setBearerToken, setUserData, setLoading, setConnected, setUsername} = actions
+export const {setBearerToken, setUserData, setConnected, setUsername} = actions

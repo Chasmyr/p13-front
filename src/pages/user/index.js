@@ -45,8 +45,14 @@ const User = ({isUserConnected = null, lastName = null, firstName = null, token 
                 <div className="header">
                     {!isEditing ? 
                         <>
-                            <h1>Welcome back<br />{firstName} {lastName}!</h1>
-                            <button className="edit-button" onClick={() => {setIsEditing(true)}}>Edit Name</button>
+                            {firstName !== null && lastName !== null ?
+                                <>
+                                    <h1>Welcome back<br />{firstName} {lastName}!</h1>
+                                    <button className="edit-button" onClick={() => {setIsEditing(true)}}>Edit Name</button>
+                                </>
+                                :
+                                <h1>Welcome back!</h1>
+                            }
                         </>
                         : 
                         <>
