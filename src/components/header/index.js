@@ -4,7 +4,7 @@ import {setBearerToken, setConnected, setUserData} from '../../slices/login/logi
 
 const Header = ({isUserConnected = null, dispatch, firstName = null}) => {
 
-    function logout() {
+    const logout = () => {
         dispatch(setBearerToken(null))
         setUserData({firstName: null, lastName: null})
         dispatch(setConnected(false))

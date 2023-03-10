@@ -276,6 +276,26 @@ html {
     color: #fff;
   }
   
+  .input-user-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .input-user-container .input-wrapper input {
+    width: 100px;
+    margin: 0px 5px;
+  }
+  
+  .edit-user-options {
+    display: flex;
+    justify-content: center;
+  }
+
+  .edit-user-options .edit-button {
+    width: 70px;
+    margin: 0px 5px;
+  }
+
   @media (min-width: 720px) {
     .account {
       flex-direction: row;

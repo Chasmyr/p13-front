@@ -1,19 +1,20 @@
 import { connect } from "react-redux"
 import Footer from "../../components/footer"
 import Header from "../../components/header"
-import {setBearerToken, setConnected, setUserData} from '../../slices/login/loginSlice'
+import {setBearerToken, setConnected, setUserData, setUsername} from '../../slices/login/loginSlice'
 import {useNavigate} from 'react-router-dom'
 import { useRef } from "react"
 import { apiPost } from "../../apiUtils"
 
-const SignIn = ({dispatch, token = null}) => {
+const SignIn = ({dispatch, userName = null}) => {
 
     const navigate = useNavigate()
 
     const inputUsername = useRef(null)
     const inputPassword = useRef(null)
+    const inputRememberMe = useRef(null)
 
-    function handleLogin(e) {
+    const handleLogin = (e) => {
 
         e.preventDefault()
 
@@ -24,6 +25,11 @@ const SignIn = ({dispatch, token = null}) => {
 
         apiPost('user/login', body, null).then(data => {
             if(data.status === 200) {
+                if(inputRememberMe.current.checked) {
+                    dispatch(setUsername(inputUsername.current.value,))
+                } else {
+                    dispatch(setUsername(null))
+                }
                 dispatch(setBearerToken(data.body.token))
                 let currentToken = data.body.token
                 apiPost('user/profile', null, currentToken).then(data => {
@@ -51,14 +57,18 @@ const SignIn = ({dispatch, token = null}) => {
                     <form>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" ref={inputUsername} />
+                        {userName !== null ? 
+                                <input type="text" id="username" ref={inputUsername} defaultValue={userName} />
+                            :
+                                <input type="text" id="username" ref={inputUsername} />
+                        }
                     </div>
                     <div className="input-wrapper">
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" ref={inputPassword} autoComplete="off" />
                     </div>
                     <div className="input-remember">
-                        <input type="checkbox" id="remember-me" />
+                        <input type="checkbox" id="remember-me" ref={inputRememberMe} />
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
                     <button className="sign-in-button" onClick={handleLogin}>
@@ -75,6 +85,6 @@ const SignIn = ({dispatch, token = null}) => {
 export default connect(
     state => ({
         isUserConnected: state.loginReducer.isConnected,
-        token: state.loginReducer.token
+        userName: state.loginReducer.userName
     })
 )(SignIn)
