@@ -16,8 +16,6 @@ const User = ({isUserConnected = null, lastName = null, firstName = null, token 
     useEffect(() => {
         if(!isUserConnected) {
             navigate('/')
-        } else {
-            
         }
     }, [])
 
