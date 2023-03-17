@@ -191,6 +191,7 @@ html {
     flex-direction: column;
     text-align: left;
     margin-bottom: 1rem;
+    margin-top: 10px;
   }
   
   .input-wrapper label {
@@ -294,6 +295,21 @@ html {
   .edit-user-options .edit-button {
     width: 70px;
     margin: 0px 5px;
+  }
+
+  .form-error {
+    color: red;
+  }
+  .center-error-page {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .error-text {
+    font-size: 24px;
   }
 
   @media (min-width: 720px) {

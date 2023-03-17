@@ -13,7 +13,7 @@ paths:
     post:
       tags:
         - Transaction Module
-      summary: Retrive las month user's transaction 
+      summary: Retrive last month user's transaction 
       description: API for finding last 30 days user's transaction
       parameters:
         - in: header
@@ -46,6 +46,47 @@ paths:
                   $ref: '#/definitions/TransactionsResponse'
         '400':
           description: Invalid UserId
+        '401':
+          description: Invalid Bearer Token
+        '404':
+          description: Bad Url
+        '500':
+          description: Internal Server Error
+  /user/transaction:
+    post:
+      tags:
+        - Transaction Module
+      summary: Retrive the details of one transaction
+      description: API finding the details of one transaction
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Transactions Payload
+          required: true
+          schema:
+             $ref: '#/definitions/TransactionBody'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Retrieve transaction successully
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              message:
+                type: string
+              transaction:
+                  $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid transaction id
         '401':
           description: Invalid Bearer Token
         '404':
@@ -102,6 +143,14 @@ definitions:
       userId:
         type: integer
         example: 3
+  TransactionBody:
+    type: object
+    required:
+      - transactionId
+    properties:
+      transactionId:
+        type: integer
+        example: 42
   TransactionsResponse:
     type: object
     properties:
@@ -129,6 +178,21 @@ definitions:
           Notes:
             type: string
             example: bread
+  TransactionResponse:
+    type: object
+    properties:
+      TransactionId:
+        type: integer
+        example: 42
+      TransactionType:
+          type: string
+          example: Electronic
+      Category:
+          type: string
+          example: food
+      Notes:
+          type: string
+          example: bread
   TransactionUpdateBody:
     type: object
     required:

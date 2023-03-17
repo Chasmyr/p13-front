@@ -3,12 +3,13 @@ import Footer from "../../components/footer"
 import Header from "../../components/header"
 import {setBearerToken, setConnected, setUserData, setUsername} from '../../slices/login/loginSlice'
 import {useNavigate} from 'react-router-dom'
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { apiPost } from "../../apiUtils"
 
 const SignIn = ({dispatch, userName = null}) => {
 
     const navigate = useNavigate()
+    const [formError, setFormError] = useState(false)
 
     const inputUsername = useRef(null)
     const inputPassword = useRef(null)
@@ -25,6 +26,7 @@ const SignIn = ({dispatch, userName = null}) => {
 
         apiPost('user/login', body, null).then(data => {
             if(data.status === 200) {
+                setFormError(false)
                 if(inputRememberMe.current.checked) {
                     dispatch(setUsername(inputUsername.current.value,))
                 } else {
@@ -43,6 +45,8 @@ const SignIn = ({dispatch, userName = null}) => {
                         navigate('/user')
                     }
                 })
+            } else {
+                setFormError(true)
             }
         })
     }
@@ -54,6 +58,9 @@ const SignIn = ({dispatch, userName = null}) => {
                 <section className="sign-in-content">
                     <i className="fa fa-user-circle sign-in-icon"></i>
                     <h1>Sign In</h1>
+                    {formError &&
+                        <span className="form-error">Les identifiants de connexion ne sont pas bons.</span>
+                    }
                     <form>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
